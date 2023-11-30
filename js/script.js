@@ -13,17 +13,22 @@ function genRandomNumberMinMax(min, max) {
  let bottonePlay = document.getElementById("play");
 
 
- bottonePlay.addEventListener("click",() =>{
+bottonePlay.addEventListener("click",() =>{
     let numeriCasualiGenerati = [];
 
     function generaNumeriCasuali() {
         let numeriCasualiDiv = document.getElementById("random-numbers");
     
         for (let i = 0; i < 5; i++) {
+            // genero 5 numero casuale da 1 a 100 
             let numeroCasuale = genRandomNumberMinMax(1, 100); 
+            // invio i numeri all'interno dell'array
             numeriCasualiGenerati.push(numeroCasuale);
-            let numbersParagraph = createMyElement("p", "numero-casuale"); 
+            // creo dei p con classe numero-casuale con la funzione precedentemente creata
+            let numbersParagraph = createMyElement("p", "numero-casuale");
+            // inserisco il testo con il numero casuale all'interno dei paragrafi
             numbersParagraph.textContent = "Numero Casuale " + (i + 1) + ": " + numeroCasuale;
+            // inserico i paragrafi dentro il div
             numeriCasualiDiv.append(numbersParagraph);
             
             
@@ -33,10 +38,11 @@ function genRandomNumberMinMax(min, max) {
         // imposto un timer di 30 secondi che deve rimuovermi i numeri
         setTimeout(function() {
             numeriCasualiDiv.innerHTML = "";
+            // richiamo la funzione creata per chiedere all'utente di inserire i numeri che saranno scomparsi
             chiediNumeriUtente();
             
             
-        }, timer * 1000);
+        }, timer * 100);
 
     }
 
@@ -47,13 +53,13 @@ function genRandomNumberMinMax(min, max) {
       
         
         for (let i = 0; i < 5; i++) {
-            // creo un input number
+            // creo degli input number
             let inputNumero = document.createElement("input");
             inputNumero.type = "number";
-            // creo una label
+            // creo delle label
             let label = document.createElement("label");
             label.textContent = "Numero Utente" + (i + 1) + ": ";
-            // inserisco l'input e la label all'interno del div
+            // inserisco i vari input e le label all'interno del div
             numeriUtenteDiv.appendChild(label);
             numeriUtenteDiv.appendChild(inputNumero);
         }
@@ -70,7 +76,7 @@ function genRandomNumberMinMax(min, max) {
         inputs.forEach(input => {
             numeriInseriti.push(input.value);
         });
-
+            // richiamo la funzione creata per confrontare i numeri
             confrontaNumeri(numeriInseriti);
         });
 
@@ -80,28 +86,36 @@ function genRandomNumberMinMax(min, max) {
 
     // creo una funzione che confronterà i numeri generati inizialmente e quelli inseriti dall'utente
     function confrontaNumeri(numeriUtente) {
-        let risultatoDiv = document.createElement("div");
-        risultatoDiv.id = "risultato-confronto";
-        document.body.appendChild(risultatoDiv);
+        console.log("Numeri casuali generati:", numeriCasualiGenerati);
+        console.log("Numeri inseriti dall'utente:", numeriUtente);
 
+        // creo un nuovo elemento div
+        let risultatoDiv = document.createElement("div");
+        // inserico il div all'interno del body di html
+        document.body.append(risultatoDiv);
+        // creo un nuovo p all'interno del div
         let testoRisultato = document.createElement("p");
-        let corrispondenze = 0;
+        // creo uno score
+        let score= 0;   
         for (let i = 0; i < 5; i++) {
-            let numeroUtente = parseInt(numeriUtente[i]); // Converti il numero utente in intero
+            // converto la stringa in numero
+            let numeroUtente = parseInt(numeriUtente[i]);
+            // aumento lo score se l'utente inserisce un numero corretto 
             if (numeroUtente === numeriCasualiGenerati[i]) {
-                corrispondenze++;
+                score++;
             }
         }
-
-        if (corrispondenze === 5) {
+        if (score === 5) {
             testoRisultato.textContent = "Complimenti! Hai indovinato tutti i numeri!";
         } else {
-            testoRisultato.textContent = "Hai indovinato " + corrispondenze + " numeri su 5.";
+            testoRisultato.textContent = "Hai indovinato " + score + " numeri su 5.";
         }
 
-        risultatoDiv.appendChild(testoRisultato);
+        console.log("Score:", score);
+        // inserisco il risultato all'interno del div
+        risultatoDiv.append(testoRisultato);
     }
-
+    
     generaNumeriCasuali();
 });
 
